@@ -15,5 +15,16 @@
 ```
 ## Method
 ### Training
+```
+
+python train.py
+
+```
 
 ### Testing
+
+```
+
+python test.py
+
+```
