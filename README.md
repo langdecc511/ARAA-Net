@@ -7,10 +7,13 @@
  
 ```
  @article{test,
-  title={{Deformable Attention Network for Articular Surface and Epiphysis Segmentation from Hand Radiograph},
+  title={Deformable Attention Network for Articular Surface and Epiphysis Segmentation from Hand Radiograph},
   author={Yamei Deng, Xu Wang, Yonglu Chen},
   journal={Manuscript submitted}
 }
 
 ```
 ## Method
+### Training
+
+### Testing
