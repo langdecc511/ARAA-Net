@@ -28,3 +28,11 @@ python train.py
 python test.py
 
 ```
+
+## Notes
+
+```
+
+If you want to train the DANet on the TSRS_RSNA-Articular-Surface dataset, please update the "datasets_root" in the config.py. 
+
+```
