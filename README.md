@@ -4,6 +4,7 @@
   If you need any (special) help for the code and data, do not hesitate to leave issues in this repository.
 ****
 ## Citation
+'''
 @article{wu2021jcs,
   title={{JCS}: An explainable {COVID}-19 diagnosis system by joint classification and segmentation},
   author={Wu, Yu-Huan and Gao, Shang-Hua and Mei, Jie and Xu, Jun and Fan, Deng-Ping and Zhang, Rong-Guo and Cheng, Ming-Ming},
@@ -13,5 +14,5 @@
   year={2021},
   publisher={IEEE}
 }
-
+'''
 ## Citation
