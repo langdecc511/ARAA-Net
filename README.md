@@ -1,5 +1,5 @@
 # DA-NET
-Deformable Attention Network for Articular Surface and Epiphysis Segmentation from Hand Radiograph
+  This is our research code of Deformable Attention Network for Articular Surface and Epiphysis Segmentation from Hand Radiograph
 ****
 ## 目录
 * [横线](#横线)
