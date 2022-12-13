@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 12 14:35:27 2021
-@author: taiheng
+Created on 2022-12-13 09:54:12
+
+@author: XuWang
+
 """
 import torch
 import torch.nn as nn
@@ -11,10 +13,7 @@ import torchvision
 from torchvision.models import resnet
 from dar import DARConv2d
 
-# import backbone.resnet.resnet as resnet
-
-# model_conv = torchvision.models.resnet50(pretrained=False)
-#Channel Attention ######################
+ 
 class CA_Block(nn.Module):
     def __init__(self, in_dim):
         super(CA_Block, self).__init__()
@@ -279,35 +278,17 @@ class daseg(nn.Module):
         self.layer3 = resnet50.layer3
         self.layer4 = resnet50.layer4
 
-        # channel reduction
-        # self.cr4 = nn.Sequential(nn.Conv2d(2048, 1024, 3, 1, 1), nn.BatchNorm2d(1024), nn.ReLU())
-        # self.cr3 = nn.Sequential(nn.Conv2d(1024, 512, 3, 1, 1), nn.BatchNorm2d(512), nn.ReLU())
-        # self.cr2 = nn.Sequential(nn.Conv2d(512, 256, 3, 1, 1), nn.BatchNorm2d(256), nn.ReLU())
-        # self.cr1 = nn.Sequential(nn.Conv2d(256, 128, 3, 1, 1), nn.BatchNorm2d(128), nn.ReLU())
-        # self.cr0 = nn.Sequential(nn.Conv2d(64, 32, 3, 1, 1), nn.BatchNorm2d(32), nn.ReLU())
         self.upsample = nn.UpsamplingNearest2d(scale_factor=2)
 
         # positioning
         self.positioning = Positioning(2048)
-
-        # focus
-        # self.focus3 = Focus(512, 1024)
-        # self.focus2 = Focus(256, 512)
-        # self.focus1 = Focus(128, 256)
-        # self.focus0 = Focuslast(64, 128)
         
         
         self.focus3 = Focus(1024, 2048)
         self.focus2 = Focus(512, 1024)
         self.focus1 = Focus(256, 512)
         self.focus0 = Focuslast(64, 256)
-        
-        
-        # self.trans4 = nn.Sequential(nn.ConvTranspose2d(1,1,3,32,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans3 = nn.Sequential(nn.ConvTranspose2d(1,1,3,16,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans2 = nn.Sequential(nn.ConvTranspose2d(1,1,3,8,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans1 = nn.Sequential(nn.ConvTranspose2d(1,1,3,4,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans0 = nn.Sequential(nn.ConvTranspose2d(1,1,3,2,1), nn.BatchNorm2d(1), nn.ReLU())
+    
 
         for m in self.modules():
             if isinstance(m, nn.ReLU):
@@ -321,11 +302,6 @@ class daseg(nn.Module):
         layer3 = self.layer3(layer2)  # [-1, 1024, h/16, w/16]
         layer4 = self.layer4(layer3)  # [-1, 2048, h/32, w/32]
 
-        # channel reduction
-        # cr4 = self.cr4(layer4)
-        # cr3 = self.cr3(layer3)
-        # cr2 = self.cr2(layer2)
-        # cr1 = self.cr1(layer1)
         
         cr4 = layer4
         cr3 = layer3
@@ -354,8 +330,6 @@ class daseg(nn.Module):
         predict1 = F.interpolate(predict1, size=x.size()[2:], mode='bilinear', align_corners=True)
         predict0 = F.interpolate(predict0, size=x.size()[2:], mode='bilinear', align_corners=True)
 
-        # if self.training:
         return predict4, predict3, predict2, predict1, predict0
 
-        # return torch.sigmoid(predict4), torch.sigmoid(predict3), torch.sigmoid(predict2), torch.sigmoid(
-        #     predict1)
+

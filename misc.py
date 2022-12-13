@@ -1,12 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
- @Time    : 2021/7/6 11:21
- @Author  : Haiyang Mei
- @E-mail  : mhy666@mail.dlut.edu.cn
- 
- @Project : CVPR2021_PFNet
- @File    : misc.py
- @Function: Useful functions
- 
+Created on 2022-12-13 09:54:12
+
+@author: XuWang
+
 """
 import numpy as np
 import os

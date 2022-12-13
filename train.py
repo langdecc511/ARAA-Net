@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 12 14:35:27 2021
+Created on 2022-12-13 09:54:12
 
-@author: taiheng
+@author: XuWang
 
 """
 import datetime
@@ -46,7 +46,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 ckpt_path = './ckpt'
-exp_name = 'TASNet'
+exp_name = 'DANet'
 
 args = {
     'epoch_num': 1000,
@@ -204,19 +204,6 @@ def train(net, optimizer):
         
             
             global_acc, class_acc, class_iou,FWIoU,mDice = confmat.compute()
-            # global_acc = global_acc.item()
-            # class_acc = class_acc.cpu().numpy()
-            # class_iou = class_iou.cpu().numpy()
-            # FWIoU = FWIoU.cpu().numpy()
-            
-            
-            # print(f'global_acc={global_acc}')
-            # print(f'class_acc={class_acc}')
-            # print(f'class_iou={class_iou}')
-            # print(f'mIoU={np.mean(class_iou)}')
-            # print(f'FWIoU={FWIoU}')
-            
-            
 
             if curr_iter % 10 == 0:
                 writer.add_scalar('loss', loss, curr_iter)
@@ -229,29 +216,10 @@ def train(net, optimizer):
 
             log = '[%3d], [%6d], [%.6f], [%.5f], [%.5f]' % \
                   (epoch, curr_iter, base_lr, np.mean(class_iou.cpu().numpy()), loss_0_record.avg)
-            # log = '[%3d], [%6d], [%.6f], [%.5f], [%.5f], [%.5f], [%.5f], [%.5f], [%.5f], [%.5f]' % \
-            #       (epoch, curr_iter, base_lr, np.mean(class_iou.cpu().numpy()), loss_record.avg, loss_1_record.avg, loss_2_record.avg,
-            #        loss_3_record.avg, loss_4_record.avg, loss_0_record.avg)
             train_iterator.set_description(log)
             open(log_path, 'a').write(log + '\n')
 
             curr_iter += 1
-            # break
-
- 
-       
-        # global_acc, class_acc, class_iou,FWIoU = confmat.compute()
-        # global_acc = global_acc.item()
-        # class_acc = class_acc.cpu().numpy()
-        # class_iou = class_iou.cpu().numpy()
-        # FWIoU = FWIoU.cpu().numpy()
-        
-        
-        # print(f'global_acc={global_acc}')
-        # print(f'class_acc={class_acc}')
-        # print(f'class_iou={class_iou}')
-        # print(f'Train mIoU={np.mean(class_iou)}')
-        # print(f'FWIoU={FWIoU}')
 
 
         current_mIoU = validate(net, optimizer)
