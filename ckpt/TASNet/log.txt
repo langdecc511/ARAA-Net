@@ -1,0 +1,2 @@
+{'epoch_num': 1000, 'train_batch_size': 1, 'last_epoch': 0, 'lr': 0.0005, 'lr_decay': 0.9, 'weight_decay': 0.0005, 'momentum': 0.9, 'snapshot': '', 'scale_w': 576, 'scale_h': 896, 'save_point': [0, 50, 80, 100, 120, 135, 180, 260, 300, 500, 700, 900, 1000, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 1999], 'poly_train': True, 'optimizer': 'Adam'}
+
