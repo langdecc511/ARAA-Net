@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 12 14:35:27 2021
-@author: taiheng
+Created on 2022-12-13 09:54:12
+
+@author: XuWang
+
 """
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 from torchvision.models import resnet
 from dar import DARConv2d
+import torchvision.models as models
 
-
-#Channel Attention ######################
+#Deformable Channel Attention ######################
 class CA_Block(nn.Module):
     def __init__(self, in_dim):
         super(CA_Block, self).__init__()
@@ -42,7 +45,7 @@ class CA_Block(nn.Module):
     
     
     
-# ################## Spatial Attention ######################
+# ##################Deformable Spatial Attention ######################
 class SA_Block(nn.Module):
     def __init__(self, in_dim):
         super(SA_Block, self).__init__()
@@ -67,9 +70,7 @@ class SA_Block(nn.Module):
         out = self.gamma * out + x
         return out
 
-###################################################################
-# ################## Context Exploration ####################
-###################################################################
+ 
 class Context_Exploration_Block(nn.Module):
     def __init__(self, input_channels):
         super(Context_Exploration_Block, self).__init__()
@@ -141,9 +142,7 @@ class Context_Exploration_Block(nn.Module):
 
         return ce
 
-###################################################################
-# ##################### Positioning ########################
-###################################################################
+ 
 class Positioning(nn.Module):
     def __init__(self, channel):
         super(Positioning, self).__init__()
@@ -161,9 +160,7 @@ class Positioning(nn.Module):
 
         return sab,map
 
-###################################################################
-# ######################## Focus ###########################
-###################################################################
+ 
 
 class Focuslast(nn.Module):
     def __init__(self, channel1, channel2):
@@ -188,10 +185,7 @@ class Focuslast(nn.Module):
         self.upsample = nn.UpsamplingNearest2d(scale_factor=2)
 
     def forward(self, x, y, in_map):
-        # x; current-level features
-        # y: higher-level features
-        # in_map: higher-level prediction
-
+ 
         up1 = self.up(y)
 
         input_map = self.input_map(in_map)
@@ -237,10 +231,6 @@ class Focus(nn.Module):
         self.upsample = nn.UpsamplingNearest2d(scale_factor=2)
 
     def forward(self, x, y, in_map):
-        # x; current-level features
-        # y: higher-level features
-        # in_map: higher-level prediction
-
         up1 = self.up(y)
 
         input_map = self.input_map(in_map)
@@ -263,16 +253,11 @@ class Focus(nn.Module):
 
         return refine2, output_map
 
-###################################################################
-# ########################## NETWORK ##############################
-###################################################################
-import torchvision.models as models
+ 
+
 class daseg(nn.Module):
     def __init__(self, backbone_path=None):
         super(daseg, self).__init__()
-        # params
-
-        # backbone
         resnet50 = resnet.resnet50(weights=models.ResNet50_Weights.DEFAULT)
         self.layer0 = nn.Sequential(resnet50.conv1, resnet50.bn1, resnet50.relu)
         self.layer1 = nn.Sequential(resnet50.maxpool, resnet50.layer1)
@@ -280,35 +265,17 @@ class daseg(nn.Module):
         self.layer3 = resnet50.layer3
         self.layer4 = resnet50.layer4
 
-        # channel reduction
-        # self.cr4 = nn.Sequential(nn.Conv2d(2048, 1024, 3, 1, 1), nn.BatchNorm2d(1024), nn.ReLU())
-        # self.cr3 = nn.Sequential(nn.Conv2d(1024, 512, 3, 1, 1), nn.BatchNorm2d(512), nn.ReLU())
-        # self.cr2 = nn.Sequential(nn.Conv2d(512, 256, 3, 1, 1), nn.BatchNorm2d(256), nn.ReLU())
-        # self.cr1 = nn.Sequential(nn.Conv2d(256, 128, 3, 1, 1), nn.BatchNorm2d(128), nn.ReLU())
-        # self.cr0 = nn.Sequential(nn.Conv2d(64, 32, 3, 1, 1), nn.BatchNorm2d(32), nn.ReLU())
+
         self.upsample = nn.UpsamplingNearest2d(scale_factor=2)
 
         # positioning
         self.positioning = Positioning(2048)
-
-        # focus
-        # self.focus3 = Focus(512, 1024)
-        # self.focus2 = Focus(256, 512)
-        # self.focus1 = Focus(128, 256)
-        # self.focus0 = Focuslast(64, 128)
         
         
         self.focus3 = Focus(1024, 2048)
         self.focus2 = Focus(512, 1024)
         self.focus1 = Focus(256, 512)
         self.focus0 = Focuslast(64, 256)
-        
-        
-        # self.trans4 = nn.Sequential(nn.ConvTranspose2d(1,1,3,32,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans3 = nn.Sequential(nn.ConvTranspose2d(1,1,3,16,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans2 = nn.Sequential(nn.ConvTranspose2d(1,1,3,8,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans1 = nn.Sequential(nn.ConvTranspose2d(1,1,3,4,1), nn.BatchNorm2d(1), nn.ReLU())
-        # self.trans0 = nn.Sequential(nn.ConvTranspose2d(1,1,3,2,1), nn.BatchNorm2d(1), nn.ReLU())
 
         for m in self.modules():
             if isinstance(m, nn.ReLU):
@@ -322,22 +289,11 @@ class daseg(nn.Module):
         layer3 = self.layer3(layer2)  # [-1, 1024, h/16, w/16]
         layer4 = self.layer4(layer3)  # [-1, 2048, h/32, w/32]
 
-        # channel reduction
-        # cr4 = self.cr4(layer4)
-        # cr3 = self.cr3(layer3)
-        # cr2 = self.cr2(layer2)
-        # cr1 = self.cr1(layer1)
-        
         cr4 = layer4
         cr3 = layer3
         cr2 = layer2
         cr1 = layer1
-        
-        # cr0 = self.cr0(layer0)
         cr0 = layer0
-        # cr0 = self.upsample(cr0)
-        
-        
 
         # positioning
         positioning, predict4 = self.positioning(cr4)
@@ -355,8 +311,4 @@ class daseg(nn.Module):
         predict1 = F.interpolate(predict1, size=x.size()[2:], mode='bilinear', align_corners=True)
         predict0 = F.interpolate(predict0, size=x.size()[2:], mode='bilinear', align_corners=True)
 
-        # if self.training:
         return predict4, predict3, predict2, predict1, predict0
-
-        # return torch.sigmoid(predict4), torch.sigmoid(predict3), torch.sigmoid(predict2), torch.sigmoid(
-        #     predict1)
