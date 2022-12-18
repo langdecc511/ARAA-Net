@@ -6,11 +6,7 @@
 ## Citation
  
 ```
- @article{DA2023Deng,
-  title={DANet: Deformable Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiograph},
-  author={Yamei Deng, Xu Wang, Student Member, IEEE, Yong Liao, Qian He, Yonglu Chen, Ting Song},
-  journal={Manuscript submitted}
-}
+
 
 ```
 ## Method
