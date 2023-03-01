@@ -1,5 +1,5 @@
-# DANet
-  This is our research code of "Deformable Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiograph"
+# AAR-Net
+  This is our research code of "Adaptive Region-Aware Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiograph"
   
   If you need any help for the code and data, do not hesitate to leave issues in this repository.
 ****
@@ -8,7 +8,7 @@
 ```
 @article{araanet2023,
 journal={submitted},
-title={DANet: Deformable Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiography }
+title={Adaptive Region-Aware Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiograph}
 }
 
 ```
