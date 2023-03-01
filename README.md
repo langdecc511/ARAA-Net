@@ -1,4 +1,4 @@
-# AAR-Net
+# ARAA-Net
   This is our research code of "Adaptive Region-Aware Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiograph"
   
   If you need any help for the code and data, do not hesitate to leave issues in this repository.
