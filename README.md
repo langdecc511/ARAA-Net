@@ -6,8 +6,8 @@
 ## Citation
  
 ```
-@article{danet2023,
-journal={submitted to TMI },
+@article{araanet2023,
+journal={submitted},
 title={DANet: Deformable Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiography }
 }
 
