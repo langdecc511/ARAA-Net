@@ -32,6 +32,6 @@ python test.py
 
 ```
 
-If you want to train the DANet on the TSRS_RSNA-Articular-Surface dataset, please update the "datasets_root" in the config.py. 
+If you want to train the ARAANet on the TSRS_RSNA-Articular-Surface dataset, please update the "datasets_root" in the config.py. 
 
 ```
