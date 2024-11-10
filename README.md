@@ -6,10 +6,17 @@
 ## Citation
  
 ```
-@article{araanet2023,
-journal={submitted},
-title={Adaptive Region-Aware Attention Network for Epiphysis and Articular Surface Segmentation from Hand Radiograph}
-}
+@ARTICLE{10480742,
+  author={Deng, Yamei and Song, Ting and Wang, Xu and Liao, Yong and Chen, Yonglu and He, Qian and Yao, Yun and Huang, Jianwei},
+  journal={IEEE Transactions on Instrumentation and Measurement}, 
+  title={ARAA-Net: Adaptive Region-Aware Attention Network for Epiphysis and Articular Surface Segmentation From Hand Radiographs}, 
+  year={2024},
+  volume={73},
+  number={},
+  pages={1-14},
+  keywords={Bones;Feature extraction;Surface morphology;Adaptive systems;Convolution;Encoding;Data mining;Adaptive region-aware convolution (ARAC);articular surface segmentation;attention mechanism;epiphysis segmentation},
+  doi={10.1109/TIM.2024.3381260}}
+
 
 ```
 ## Method
